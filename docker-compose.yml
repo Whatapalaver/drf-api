@@ -1,0 +1,27 @@
+version: "3.7"
+   
+services:
+  db:
+    image: postgres:10-alpine
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=app
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=supersecurepassword
+  app:
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/app
+    command: >
+      python manage.py runserver 0.0.0.0:8000
+    environment:
+      - DB_HOST=db
+      - DB_NAME=app
+      - DB_USER=postgres
+      - DB_PASS=supersecurepassword
+    depends_on:
+      - db
