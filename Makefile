@@ -25,4 +25,4 @@ py-shell:
 	docker-compose run app python manage.py shell
 
 test:
-	docker-compose run app python manage.py test
+	docker-compose run app sh -c "python manage.py test && black ."
